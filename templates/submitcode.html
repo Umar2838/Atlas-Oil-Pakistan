@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <script src="{% static 'js/script.js' %}"></script> 
+
+    <title>Atlas | Code</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div>
+            <img class="logo" src="{% static 'assets/images/logos/logo.png' %}">
+            <h1 class="h1">Submit your <span style="color:#39387E">Code</span></h1>
+        </div>
+    </div>
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <form class="form" action="{% url 'submitcode' %}" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="contact">
+                Code
+                <input type="number" id="contact" name="contact" placeholder="Enter your code"/>
+            </label>
+        </div>    
+        <div>
+            <button class="signupbtn" id="submit-btn" type="submit">Submit code</button>
+        </div>
+    </form>
+
+
+
+</body>
+</html>

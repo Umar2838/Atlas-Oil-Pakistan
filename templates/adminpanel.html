@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <title>Atlas | Admin Panel</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div>
+            <img class="logo" src="{% static 'assets/images/logos/logo.png' %}">
+            <h1 class="h1">Admin Panel <span style="color:#39387E"> Atlas</span></h1>
+        </div>
+    </div>
+    
+    <div class="container">
+        <ul class="responsive-table" id="codes-table">
+            <li class="table-header">
+                <div class="col col-1">Serial no.</div>
+                <div class="col col-2">Customer name</div>
+                <div class="col col-3">Contact no</div>
+                <div class="col col-4">Distributor Code</div>
+                <div class="col col-5">Code</div>
+                <div class="col col-6">Created At</div>
+            </li>
+            <!-- Data will be injected here by JavaScript -->
+        </ul>
+    </div>
+
+    <script>
+        // Fetch the data from the server using JavaScript (AJAX)
+        function fetchSubmittedCodes() {
+            fetch('/api/get-submitted-codes/')
+                .then(response => response.json())
+                .then(data => {
+                    const codesTable = document.getElementById('codes-table');
+                    
+                    if (data.length === 0) {
+                        const noDataRow = `
+                            <li class="table-row">
+                                <div class="col col-1" data-label="No Codes">No codes submitted yet.</div>
+                            
+                            </li>`;
+                        codesTable.insertAdjacentHTML('beforeend', noDataRow);
+                    } else {
+                        data.forEach((code, index) => {
+                            const codeRow = `
+                                <li class="table-row">
+                                    <div class="col col-1" data-label="Serial no.">${index + 1}</div>
+                                    <div class="col col-2" data-label="Customer name">Umar Aqeel</div>
+                                    <div class="col col-3" data-label="Contact no">088738633</div>
+                                    <div class="col col-4" data-label="Distributor code">67768</div>
+                                    <div class="col col-5" data-label="Submitted Code">${code.code}</div>
+                                    <div class="col col-6" data-label="Created At">${new Date(code.created_at).toLocaleString()}</div>
+                                </li>`;
+                            codesTable.insertAdjacentHTML('beforeend', codeRow);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error fetching codes:', error));
+        }
+
+        // Call the function when the page loads
+        window.onload = fetchSubmittedCodes;
+    </script>
+</body>
+</html>

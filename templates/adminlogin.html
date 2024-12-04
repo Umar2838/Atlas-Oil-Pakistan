@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}"/>
+    <title>Atlas | Admin Login</title>
+</head>
+<body>
+    
+    <div class="wrapper">
+        <div>
+            <img class="logo" src="{% static 'assets/images/logos/logo.png' %}">
+            <h1 class="h1">Admin Login <span style="color:#39387E">Atlas</span></h1>
+        </div>
+    </div>
+        
+    <form class="form" id="adminLoginForm" action="#" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="username">
+                Username
+                <input type="text" id="username" name="username" placeholder="Enter your Username"/>
+            </label>
+        </div>    
+        <div>
+            <label for="password">
+                Password
+                <input type="password" id="password" name="password" placeholder="Enter your Password"/>
+            </label>
+        </div>
+        <div>
+            <button class="signupbtn" type="button" onclick="validateAdminLogin()">Admin Login</button>
+        </div>
+    </form>
+
+    <script>
+        function validateAdminLogin() {
+            // Get the values of the form fields
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Check if either field is empty
+            if (username === "" || password === "") {
+                alert("Please fill in both Username and Password.");
+                return false;  // Prevent the form from proceeding
+            }
+
+            // If validation passes, redirect to the admin panel
+            window.location.href = "{% url 'adminpanel' %}";
+        }
+    </script>
+
+</body>
+</html>
